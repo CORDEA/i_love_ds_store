@@ -1,4 +1,5 @@
 import os
+from optparse import OptionParser
 from os import path
 
 from ds_store import DSStore
@@ -17,4 +18,8 @@ def __walk(base):
 
 
 if __name__ == '__main__':
-    __walk('./')
+    parser = OptionParser()
+    parser.add_option('-d', '--dir', dest='dir', metavar='PATH')
+    parser.add_option('-i', '--ignore', dest='ignore', metavar='PATH', action='append')
+    (options, args) = parser.parse_args()
+    __walk(options.dir)
