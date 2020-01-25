@@ -12,9 +12,13 @@ def __generate_ds_store(base):
         pass
 
 
-def __walk(base):
+def __walk(base, ignore):
     for basePath, _, _ in os.walk(base):
-        __generate_ds_store(basePath)
+        for i in ignore:
+            if i in basePath:
+                break
+        else:
+            __generate_ds_store(basePath)
 
 
 if __name__ == '__main__':
@@ -25,5 +29,5 @@ if __name__ == '__main__':
                       dest='ignore',
                       metavar='PATH',
                       action='append')
-    (options, args) = parser.parse_args()
-    __walk(options.dir)
+    (options, _) = parser.parse_args()
+    __walk(options.dir, options.ignore)
